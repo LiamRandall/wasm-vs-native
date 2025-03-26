@@ -1,0 +1,39 @@
+# Compiled object files
+*.o
+*.lo
+*.la
+*.al
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.a
+*.lib
+
+# Executable files
+*.out
+*.exe
+
+# WebAssembly files
+*.wasm
+*.wat
+
+# Build directories
+/build/
+/dist/
+/bin/
+/obj/
+/target/
+
+# Debug files
+*.dSYM/
+*.pdb
+*.ilk
+*.map
+*.exp
+
+# Logs
+*.log

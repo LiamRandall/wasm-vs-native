@@ -28,6 +28,15 @@ component: wasm adapter
 		--adapt ${ADAPTER_FILE} \
 		--output read_file_component.wasm
 
+hack:
+	wasm-tools print read_file_component.wasm -o read_file_component.wat
+	sed -i '' 's/@0.2.3/@0.2.1/g' read_file_component.wat
+	wasm-tools parse read_file_component.wat -o component.wasm
+
+virt: hack
+	wasi-virt --mount /virt-dir=./virt_fs -e FS=virtual --allow-all --out read_file_component_virtfs.wasm component.wasm
+	wasmtime run read_file_component_virtfs.wasm /virt-dir/virtme.txt
+
 inspect:
 	wash inspect --wit read_file_component.wasm
 
