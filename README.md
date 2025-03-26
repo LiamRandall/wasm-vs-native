@@ -77,6 +77,28 @@ You’ll see:
 openat(AT_FDCWD, "../inputs/secret.txt", O_RDONLY)
 read(...)
 write(...)
+
+Filtering these out:
+
+```cat syscall.txt| cut -d'(' -f1 | sort | uniq
+brk
+close
+execve
+exit_group
+faccessat
+getrandom
+mmap
+mprotect
+munmap
+newfstatat
+openat
+prlimit64
+read
+rseq
+set_robust_list
+set_tid_address
+write
+```
 ```
 
 ### On macOS:
@@ -100,13 +122,27 @@ write(1, "...")                        = 42
 make wasm component
 wash inspect --wit read_file_component.wasm
 ```
+```wash inspect --wit read_file_component.wasm
 
-You’ll see something like:
+package root:component;
 
-```
-import wasi:filesystem/types@0.2.0;
-import wasi:filesystem/preopens@0.2.0;
-import wasi:cli/stdout@0.2.0;
+world root {
+  import wasi:cli/environment@0.2.3;
+  import wasi:cli/exit@0.2.3;
+  import wasi:io/error@0.2.3;
+  import wasi:io/streams@0.2.3;
+  import wasi:cli/stdin@0.2.3;
+  import wasi:cli/stdout@0.2.3;
+  import wasi:cli/stderr@0.2.3;
+  import wasi:cli/terminal-input@0.2.3;
+  import wasi:cli/terminal-output@0.2.3;
+  import wasi:cli/terminal-stdin@0.2.3;
+  import wasi:cli/terminal-stdout@0.2.3;
+  import wasi:cli/terminal-stderr@0.2.3;
+  import wasi:clocks/wall-clock@0.2.3;
+  import wasi:filesystem/types@0.2.3;
+  import wasi:filesystem/preopens@0.2.3;
+}
 ```
 
 These **explicitly declare the component’s capabilities**. There are no raw syscalls—just structured, sandboxed imports.
@@ -115,6 +151,10 @@ Try running:
 
 ```bash
 wasmtime run --dir=. read_file.wasm ../inputs/secret.txt
+
+
+```wasmtime run --dir=. read_file.wasm ../inputs/secret.txt
+Error opening file: Operation not permitted
 ```
 
 🚫 This fails because the path `../inputs/secret.txt` is **outside the preopened directory**.
@@ -148,7 +188,6 @@ WebAssembly components, especially with the [WASI](https://wasi.dev/) standard, 
 ## 🧪 Want to Try More?
 
 - Modify the program to write instead of read — compare `write` capabilities
-- Try with `wasi-preview2` style components and more granular imports
 - Use [wasmtime](https://wasmtime.dev/)
 
 ---
@@ -157,6 +196,6 @@ WebAssembly components, especially with the [WASI](https://wasi.dev/) standard, 
 
 Inspired by the growing power of the WebAssembly Component Model and the promise of portable, secure compute everywhere.
 
-Built with ❤️ by developers who believe in sandboxing-by-default.
+Built with ❤️ at Cosmonic where we believe in sandboxing-by-default.
 
 > PRs welcome!
