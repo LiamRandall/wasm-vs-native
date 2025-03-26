@@ -1,0 +1,18 @@
+brk
+close
+execve
+exit_group
+faccessat
+getrandom
+mmap
+mprotect
+munmap
+newfstatat
+openat
+prlimit64
+read
+rseq
+set_robust_list
+set_tid_address
+strace ./native_read example.txt | cut -d'
+write
