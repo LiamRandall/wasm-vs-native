@@ -1,7 +1,10 @@
 WASI_SDK_PATH ?= /opt/wasi-sdk
 WIT_BINDGEN ?= wit-bindgen
-ADAPTER_URL ?= https://github.com/WebAssembly/component-model/releases/download/2023-12-01/wasi_snapshot_preview1.reactor.wasm
-ADAPTER_FILE ?= wasi_snapshot_preview1.reactor.wasm
+
+# Building with command since c program relies on main and has no bindgen exports
+ADAPTER_URL ?= https://github.com/bytecodealliance/wasmtime/releases/download/v31.0.0/wasi_snapshot_preview1.command.wasm
+ADAPTER_FILE ?= wasi_snapshot_preview1.command.wasm
+# ADAPTER_URL ?= https://github.com/bytecodealliance/wasmtime/releases/download/v31.0.0/wasi_snapshot_preview1.reactor.wasm
 
 all: native wasm component inspect
 
