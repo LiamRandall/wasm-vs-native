@@ -35,7 +35,7 @@ hack:
 
 virt: hack
 	wasi-virt --mount /virt-dir=./virt_fs -e FS=virtual --allow-all --out read_file_component_virtfs.wasm component.wasm
-	wasmtime run --dir=. read_file_component_virtfs.wasm /virt_fs/virtme.txt
+	wasmtime run read_file_component_virtfs.wasm /virt-dir/virtme.txt
 
 inspect:
 	wash inspect --wit read_file_component.wasm
